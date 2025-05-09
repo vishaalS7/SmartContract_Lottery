@@ -101,4 +101,3 @@ contract FundSubscription is CodeConstants, Script {
         fundSubscriptionUsingConfig();
     }
 }
-
