@@ -1,66 +1,92 @@
-## Foundry
+# 🏆 Raffle Smart Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+This is a decentralized Raffle (lottery) smart contract built on Solidity, leveraging [Chainlink VRF v2.5](https://docs.chain.link/vrf/v2-5/introduction) for randomness and [Chainlink Automation](https://docs.chain.link/chainlink-automation/introduction) for periodic execution.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+> **Author:** [@0xVishh](https://github.com/0xvishh)  
+> **Inspired by:** [Cyfrin's Foundry Course (Patrick Collins)](https://github.com/Cyfrin/foundry-full-course-f23)  
+> **Purpose:** Learning & Experimentation
 
-## Documentation
+---
 
-https://book.getfoundry.sh/
+## 🔧 Features
 
-## Usage
+- 🎟 Enter a raffle by sending ETH
+- ⏱ Automated upkeep using Chainlink Automation
+- 🎲 Random winner selection via Chainlink VRF v2.5
+- 🔒 Uses `enum` to manage state (`OPEN`, `CALCULATING`)
+- 🧪 Fully tested with Foundry
 
-### Build
+---
 
-```shell
-$ forge build
+## 🧠 Architecture
+
+- `enterRaffle()` — Players enter the raffle
+- `checkUpkeep()` — Chainlink Automation determines if it's time to pick a winner
+- `performUpkeep()` — Triggers Chainlink VRF request
+- `fulfillRandomWords()` — Chainlink VRF returns randomness to select winner
+
+---
+
+## 🧱 Tech Stack
+
+- **Solidity:** ^0.8.19
+- **Foundry:** Forge, Anvil
+- **Chainlink:**
+  - VRF v2.5 (randomness)
+  - Automation (timed execution)
+- **Test Framework:** Forge standard tests (`.t.sol`)
+- **Scripting:** Deploy, interaction, and helper config scripts
+
+---
+
+## 📂 Project Structure
+
+```
+.
+├── contracts
+│   └── Raffle.sol
+├── script
+│   ├── DeployRaffle.s.sol
+│   ├── interactions.s.sol
+│   └── HelperConfig.s.sol
+├── test
+│   └── RaffleTest.t.sol
+├── lib
+│   └── (Chainlink libraries & foundry-devops)
+└── foundry.toml
 ```
 
-### Test
+---
 
-```shell
-$ forge test
+## 🚀 How to Deploy
+
+1. Configure your `.env` with your Chainlink subscription ID, VRF details, etc.
+2. Deploy:
+```bash
+forge script script/DeployRaffle.s.sol --rpc-url <your_rpc_url> --private-key <your_key> --broadcast
 ```
 
-### Format
+---
 
-```shell
-$ forge fmt
+## 🧪 Run Tests
+
+```bash
+forge test
 ```
 
-### Gas Snapshots
+---
 
-```shell
-$ forge snapshot
-```
+## 🔍 Learnings & Insights
 
-### Anvil
+- How Chainlink VRF v2.5 differs from older versions.
+- Using Foundry for unit testing, mocking, and scripting.
+- Automation-compatible contracts and the importance of `checkUpkeep` vs `performUpkeep`.
+- Managing state machines in smart contracts.
 
-```shell
-$ anvil
-```
+---
 
-### Deploy
+## 📜 License
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+MIT – Free for learning and educational purposes.
